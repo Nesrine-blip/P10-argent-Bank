@@ -1,0 +1,11 @@
+require('mongoose')
+const databaseUrl = 'mongodb+srv://argentbank:LqagwAiqr2lFkllT@cluster0.zzrvrci.mongodb.net/argentbank?appName=Cluster0'
+module.exports = async () => {
+  try {
+    await mongoose.connect(databaseUrl, { useNewUrlParser: true })
+    console.log('Database successfully connected')
+  } catch (error) {
+    console.error(`Database Connectivity Error: ${error}`)
+    throw new Error(error)
+  }
+}
