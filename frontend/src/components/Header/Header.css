@@ -1,0 +1,30 @@
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: white;
+}
+
+.logo img {
+  width: 200px;
+  height: auto;
+}
+
+.signin {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #2c3e50;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.signin:hover {
+  text-decoration: underline;
+}
+
+.signin i {
+  font-size: 1.2rem;
+}
