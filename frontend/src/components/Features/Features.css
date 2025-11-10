@@ -1,0 +1,101 @@
+/* ===================================
+   FEATURES - Section des avantages
+   =================================== */
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  background: white;
+}
+
+/* Classe pour cacher visuellement (accessibilité) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ===================================
+   FEATURE ITEM - Chaque carte
+   =================================== */
+
+.feature-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 350px;
+}
+
+/* ===================================
+   FEATURE ICON - Cercle avec icône
+   =================================== */
+
+.feature-icon {
+  /* Le cercle vert */
+  width: 150px;
+  height: 150px;
+  border: 10px solid #00bc77;
+  border-radius: 50%;
+  
+  /* Centrer l'icône */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Espacement */
+  margin-bottom: 1.5rem;
+}
+
+.feature-icon i {
+  /* Style de l'icône */
+  font-size: 3rem;
+  color: black;
+}
+
+/* ===================================
+   FEATURE TITLE - Titre
+   =================================== */
+
+.feature-title {
+  color: #222;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* ===================================
+   FEATURE DESCRIPTION - Texte
+   =================================== */
+
+.feature-description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ===================================
+   RESPONSIVE - Mobile
+   =================================== */
+
+@media (max-width: 920px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .feature-item {
+    max-width: 100%;
+  }
+}

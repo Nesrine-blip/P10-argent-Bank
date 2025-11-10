@@ -1,0 +1,138 @@
+
+.signin-page {
+  background-color: #12002b;
+  
+  /* Prend toute la hauteur */
+  min-height: 80vh;
+  
+  /* Centre le formulaire */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Espacement */
+  padding: 2rem;
+}
+
+/* ===================================
+   SIGNIN CONTENT - Formulaire blanc
+   =================================== */
+
+.signin-content {
+  /* Fond blanc */
+  background: white;
+  
+  /* Dimensions */
+  width: 100%;
+  max-width: 300px;
+  
+  /* Espacement intérieur */
+  padding: 2rem;
+  
+  /* Centre le contenu */
+  text-align: center;
+}
+
+/* ===================================
+   ICÔNE
+   =================================== */
+
+.signin-icon {
+  font-size: 3rem;
+  color: #666;
+}
+
+/* ===================================
+   TITRE
+   =================================== */
+
+.signin-content h1 {
+  margin: 1rem 0 1.5rem 0;
+  color: #222;
+}
+
+/* ===================================
+   FORMULAIRE
+   =================================== */
+
+.signin-content form {
+  text-align: left;
+}
+
+/* ===================================
+   CHAMPS INPUT
+   =================================== */
+
+.input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.input-wrapper label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #00bc77;
+}
+
+/* ===================================
+   REMEMBER ME - Checkbox
+   =================================== */
+
+.input-remember {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.input-remember input {
+  margin-right: 0.5rem;
+}
+
+.input-remember label {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ===================================
+   BOUTON SIGN IN
+   =================================== */
+
+.signin-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #00bc77;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.signin-button:hover {
+  background-color: #00a868;
+}
+
+/* ===================================
+   RESPONSIVE - Mobile
+   =================================== */
+
+@media (max-width: 768px) {
+  .signin-content {
+    padding: 1.5rem;
+  }
+}

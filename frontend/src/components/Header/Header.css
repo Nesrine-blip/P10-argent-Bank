@@ -1,9 +1,17 @@
-
+/* Header Navigation */
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 20px;
   background: white;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+/* Logo Container */
+.logo {
+  display: flex;
 }
 
 .logo img {
@@ -11,6 +19,7 @@
   height: auto;
 }
 
+/* Sign In Button */
 .signin {
   display: flex;
   align-items: center;
@@ -18,11 +27,15 @@
   color: #2c3e50;
   font-weight: bold;
   text-decoration: none;
-  padding: 10px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .signin:hover {
   text-decoration: underline;
+  color: #42b983;
+  background: #f5f5f5;
 }
 
 .signin i {

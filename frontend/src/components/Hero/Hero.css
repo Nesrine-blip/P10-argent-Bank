@@ -1,0 +1,73 @@
+/* ===================================
+   HERO - Bannière principale
+   =================================== */
+
+.hero {
+  background-image: url('/assets/bank-tree.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 400px;
+  position: relative;
+}
+
+/* ===================================
+   HERO CONTENT - Encadré blanc
+   =================================== */
+
+.hero-content {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 300px;
+  padding: 2rem;
+  background: white;
+  text-align: right;
+}
+
+/* ===================================
+   TEXTES
+   =================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.hero-content .subtitle {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.hero-content .text {
+  margin-bottom: 0;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+/* ===================================
+   RESPONSIVE - Mobile
+   =================================== */
+
+@media (max-width: 920px) {
+  .hero {
+    height: 300px;
+  }
+
+  .hero-content {
+    position: static;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    transform: translateY(50%);
+  }
+}
