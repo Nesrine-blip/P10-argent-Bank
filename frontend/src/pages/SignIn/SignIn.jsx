@@ -16,17 +16,25 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // 1. Se connecter
-    const loginResult = await dispatch(loginAction({ email, password }));
-    
-    // 2. Si succès, récupérer le profil
-    if (loginResult.payload) {
-      const profileResult = await dispatch(getUserProfileAction(loginResult.payload));
+    try {
+      // 1. LOGIN - On récupère le token
+      const loginResult = await dispatch(loginAction({ email, password }));
       
-      // 3. Si profil récupéré, rediriger vers /user
-      if (profileResult.payload) {
-        navigate('/user');
+      // 2. Vérifier si le login a réussi
+      if (loginAction.fulfilled.match(loginResult)) {
+        const token = loginResult.payload;
+        
+        // 3. RÉCUPÉRER LE PROFIL avec le token
+        const profileResult = await dispatch(getUserProfileAction(token));
+        
+        // 4. Vérifier si le profil a été récupéré
+        if (getUserProfileAction.fulfilled.match(profileResult)) {
+          // 5. REDIRECTION vers /user
+          navigate('/user');
+        }
       }
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error);
     }
   };
 
