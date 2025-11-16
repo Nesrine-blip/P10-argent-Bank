@@ -1,67 +1,53 @@
-
 .signin-page {
   background-color: #12002b;
-  
-  /* Prend toute la hauteur */
   min-height: 80vh;
-  
-  /* Centre le formulaire */
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  /* Espacement */
   padding: 2rem;
 }
 
-/* ===================================
-   SIGNIN CONTENT - Formulaire blanc
-   =================================== */
+/* =======================
+   SIGNIN FORM CONTAINER
+   ======================= */
 
 .signin-content {
-  /* Fond blanc */
   background: white;
-  
-  /* Dimensions */
   width: 100%;
   max-width: 300px;
-  
-  /* Espacement intérieur */
   padding: 2rem;
-  
-  /* Centre le contenu */
   text-align: center;
 }
 
-/* ===================================
-   ICÔNE
-   =================================== */
+/* =======================
+   ICON
+   ======================= */
 
 .signin-icon {
   font-size: 3rem;
   color: #666;
 }
 
-/* ===================================
-   TITRE
-   =================================== */
+/* =======================
+   TITLE
+   ======================= */
 
 .signin-content h1 {
   margin: 1rem 0 1.5rem 0;
   color: #222;
 }
 
-/* ===================================
-   FORMULAIRE
-   =================================== */
+/* =======================
+   FORM
+   ======================= */
 
 .signin-content form {
   text-align: left;
 }
 
-/* ===================================
-   CHAMPS INPUT
-   =================================== */
+/* =======================
+   INPUT FIELDS
+   ======================= */
 
 .input-wrapper {
   margin-bottom: 1rem;
@@ -87,9 +73,9 @@
   border-color: #00bc77;
 }
 
-/* ===================================
-   REMEMBER ME - Checkbox
-   =================================== */
+/* =======================
+   REMEMBER ME
+   ======================= */
 
 .input-remember {
   display: flex;
@@ -106,9 +92,9 @@
   font-size: 0.9rem;
 }
 
-/* ===================================
-   BOUTON SIGN IN
-   =================================== */
+/* =======================
+   SIGNIN BUTTON
+   ======================= */
 
 .signin-button {
   width: 100%;
@@ -127,9 +113,9 @@
   background-color: #00a868;
 }
 
-/* ===================================
-   RESPONSIVE - Mobile
-   =================================== */
+/* =======================
+   RESPONSIVE
+   ======================= */
 
 @media (max-width: 768px) {
   .signin-content {

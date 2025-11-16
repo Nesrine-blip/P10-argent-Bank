@@ -1,51 +1,53 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginAction, getUserProfileAction } from '../../redux/authAction';
 import './SignIn.css';
 
-/**
- * Page SignIn - Page de connexion
- * 
- * Contient :
- * - Un formulaire avec username et password
- * - Un bouton de connexion
- */
 function SignIn() {
-  // États pour stocker les valeurs des champs
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  // Fonction appelée quand on soumet le formulaire
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page
-    console.log('Username:', username);
-    console.log('Password:', password);
-    console.log('Remember me:', rememberMe);
-    // Ici on ajoutera la logique de connexion plus tard
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading, errorMessage } = useSelector((state) => state.auth);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // 1. Se connecter
+    const loginResult = await dispatch(loginAction({ email, password }));
+    
+    // 2. Si succès, récupérer le profil
+    if (loginResult.payload) {
+      const profileResult = await dispatch(getUserProfileAction(loginResult.payload));
+      
+      // 3. Si profil récupéré, rediriger vers /user
+      if (profileResult.payload) {
+        navigate('/user');
+      }
+    }
   };
 
   return (
     <main className="signin-page">
       <section className="signin-content">
-        {/* Icône utilisateur */}
         <i className="fa fa-user-circle signin-icon"></i>
-        
-        {/* Titre */}
         <h1>Sign In</h1>
 
-        {/* Formulaire */}
         <form onSubmit={handleSubmit}>
-          {/* Champ Username */}
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
-          {/* Champ Password */}
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
             <input
@@ -53,10 +55,10 @@ function SignIn() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
-          {/* Checkbox Remember me */}
           <div className="input-remember">
             <input
               type="checkbox"
@@ -67,9 +69,12 @@ function SignIn() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
 
-          
-          <button type="submit" className="signin-button">
-            Sign In
+          {errorMessage && (
+            <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>
+          )}
+
+          <button type="submit" className="signin-button" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Sign In'}
           </button>
         </form>
       </section>

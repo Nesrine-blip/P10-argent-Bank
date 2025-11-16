@@ -1,5 +1,5 @@
 /* ===================================
-   FEATURES - Section des avantages
+   FEATURES - 
    =================================== */
 
 .features {
@@ -11,7 +11,7 @@
   background: white;
 }
 
-/* Classe pour cacher visuellement (accessibilité) */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -25,7 +25,7 @@
 }
 
 /* ===================================
-   FEATURE ITEM - Chaque carte
+   FEATURE ITEM 
    =================================== */
 
 .feature-item {
@@ -38,36 +38,32 @@
 }
 
 /* ===================================
-   FEATURE ICON - Cercle avec icône
+   FEATURE ICON - 
    =================================== */
 
 .feature-icon {
-  /* Le cercle vert */
+  /* green circle */
   width: 150px;
   height: 150px;
   border: 10px solid #00bc77;
   border-radius: 50%;
-  
-  /* Centrer l'icône */
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Espacement */
   margin-bottom: 1.5rem;
 }
 
 .feature-icon i {
-  /* Style de l'icône */
+  /* icon*/
   font-size: 3rem;
   color: black;
 }
 
 /* ===================================
-   FEATURE TITLE - Titre
+   TITRE -
    =================================== */
 
-.feature-title {
+.feature-item h3 {
   color: #222;
   font-size: 1.25rem;
   font-weight: bold;
@@ -75,10 +71,10 @@
 }
 
 /* ===================================
-   FEATURE DESCRIPTION - Texte
+   DESCRIPTION - p dans feature-item
    =================================== */
 
-.feature-description {
+.feature-item p {
   color: #666;
   line-height: 1.6;
   margin: 0;
