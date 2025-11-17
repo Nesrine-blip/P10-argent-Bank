@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginAction, getUserProfileAction } from '../../Redux/authAction';
+import { login, getUserProfile } from '../../Redux/authSlice';
 import './SignIn.css';
 
 function SignIn() {
@@ -11,30 +11,24 @@ function SignIn() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, errorMessage } = useSelector((state) => state.auth);
+  const { isLoading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     try {
-      // 1. LOGIN - On récupère le token
-      const loginResult = await dispatch(loginAction({ email, password }));
+      const loginResult = await dispatch(login({ email, password }));
       
-      // 2. Vérifier si le login a réussi
-      if (loginAction.fulfilled.match(loginResult)) {
+      if (login.fulfilled.match(loginResult)) {
         const token = loginResult.payload;
+        const profileResult = await dispatch(getUserProfile(token));
         
-        // 3. RÉCUPÉRER LE PROFIL avec le token
-        const profileResult = await dispatch(getUserProfileAction(token));
-        
-        // 4. Vérifier si le profil a été récupéré
-        if (getUserProfileAction.fulfilled.match(profileResult)) {
-          // 5. REDIRECTION vers /user
+        if (getUserProfile.fulfilled.match(profileResult)) {
           navigate('/user');
         }
       }
     } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
+      // Error handled by Redux
     }
   };
 
@@ -77,8 +71,8 @@ function SignIn() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
 
-          {errorMessage && (
-            <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>
+          {error && (
+            <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
           )}
 
           <button type="submit" className="signin-button" disabled={isLoading}>

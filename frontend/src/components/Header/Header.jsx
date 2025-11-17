@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutAction } from '../../Redux/authAction';  
+import { logout } from '../../Redux/authSlice';  
 import './Header.css';
 
 function Header() {
@@ -9,8 +9,8 @@ function Header() {
   const { token, user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
-    dispatch(logoutAction());
-    navigate("/");  // Redirection vers l'accueil
+    dispatch(logout());
+    navigate("/");
   };
 
   return (

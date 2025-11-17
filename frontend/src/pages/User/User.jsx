@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUserProfileAction } from '../../Redux/authAction';
-import { editUser } from '../../Redux/userAction';
+import { getUserProfile, updateUsername } from '../../Redux/authSlice';
 import './User.css';
 
 function User() {
@@ -17,17 +16,14 @@ function User() {
   const lastName = user?.lastName || '';
   const userName = user?.userName || '';
 
-  // Redirection si pas connecté
   useEffect(() => {
     if (!token) {
       navigate('/sign-in');
     } else if (token && !user) {
-      // Charger le profil si on a un token mais pas de user
-      dispatch(getUserProfileAction(token));
+      dispatch(getUserProfile(token));
     }
   }, [token, user, navigate, dispatch]);
 
-  // Initialiser le nouveau userName avec la valeur actuelle
   useEffect(() => {
     if (userName) {
       setNewUserName(userName);
@@ -40,23 +36,18 @@ function User() {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setNewUserName(userName); // Réinitialiser avec la valeur d'origine
+    setNewUserName(userName);
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     
     if (newUserName.trim() && newUserName !== userName) {
-      try {
-        await dispatch(editUser({ token, userName: newUserName }));
-        setIsEditing(false);
-      } catch (error) {
-        console.error('Erreur lors de la mise à jour:', error);
-      }
+      await dispatch(updateUsername({ token, userName: newUserName }));
+      setIsEditing(false);
     }
   };
 
-  // Affichage pendant le chargement
   if (!user) {
     return (
       <main className="user-page">
@@ -89,7 +80,6 @@ function User() {
                 id="userName"
                 value={newUserName}
                 onChange={(e) => setNewUserName(e.target.value)}
-                placeholder="Enter username"
                 required
               />
             </div>
