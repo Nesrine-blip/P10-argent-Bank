@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginAction, getUserProfileAction } from '../../redux/authAction';
+import { loginAction, getUserProfileAction } from '../../Redux/authAction';
 import './SignIn.css';
 
 function SignIn() {

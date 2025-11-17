@@ -1,74 +1,62 @@
-import { createAsyncThunk, createAction, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
-// Action pour la déconnexion
+// ============================================
+// ACTION 1 : LOGOUT (action simple)
+// ============================================
 export const logoutAction = createAction("auth/logout");
 
-// Action asynchrone pour la connexion
+// ============================================
+// ACTION 2 : LOGIN (action async)
+// ============================================
 export const loginAction = createAsyncThunk(
   "auth/login",
-  async (entryPayload, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     try {
-      // Envoi de la requête POST à l'API de connexion
-      const res = await fetch("http://localhost:3001/api/v1/user/login", {
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(entryPayload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
       });
 
-      // Convertie de la réponse en JSON
-      const data = await res.json();
+      const data = await response.json();
 
-      // Gestion des erreurs de la réponse
-      if (!res.ok) {
-        return rejectWithValue(
-          data.body?.message || "Incorrect username or password"
-        );
+      if (!response.ok) {
+        return rejectWithValue(data.message || "Login failed");
       }
 
-      // Stockage du token dans localStorage
-      localStorage.setItem("token", data.body?.token || "");
-      return data.body?.token || "";
+      const token = data.body.token;
+      localStorage.setItem("token", token);
+      return token;
     } catch (error) {
-      // Gestion des erreurs
-      return rejectWithValue("An unexpected error occurred");
+      return rejectWithValue("Network error");
     }
   }
 );
 
-// État initial
-const initialState = {
-  token: localStorage.getItem("token") || null,
-  isLoading: false,
-  errorMessage: "",
-};
-
-// Slice pour l'authentification
-const authSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      // Gestion de l'état pendant la requête de connexion
-      .addCase(loginAction.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(loginAction.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.token = action.payload;
-      })
-      .addCase(loginAction.rejected, (state, action) => {
-        state.isLoading = false;
-        state.errorMessage = action.payload;
-      })
-      // Gestion de l'état pour la déconnexion
-      .addCase(logoutAction, (state) => {
-        state.token = null;
-        localStorage.removeItem("token");
+// ============================================
+// ACTION 3 : GET USER PROFILE (action async)
+// ============================================
+export const getUserProfileAction = createAsyncThunk(
+  "auth/getUserProfile",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/v1/user/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
       });
-  },
-});
 
-export default authSlice.reducer;
+      const data = await response.json();
+
+      if (!response.ok) {
+        return rejectWithValue(data.message || "Failed to get profile");
+      }
+
+      return data.body;
+    } catch (error) {
+      return rejectWithValue("Network error");
+    }
+  }
+);

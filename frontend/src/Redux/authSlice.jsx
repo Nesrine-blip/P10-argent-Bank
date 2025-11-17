@@ -1,45 +1,66 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { logoutAction, loginAction } from "../Redux/authAction";
+import { logoutAction, loginAction, getUserProfileAction } from "./authAction";
 
-// Création du slice pour l'authentification
+// ============================================
+// ÉTAT INITIAL
+// ============================================
+const initialState = {
+  token: localStorage.getItem("token") || null,
+  user: null,
+  isLoading: false,
+  errorMessage: null,
+};
+
+// ============================================
+// SLICE
+// ============================================
 const authSlice = createSlice({
-  name: "authSlice",
-  initialState: {
-    token: localStorage.getItem("token") || null,
-    errorMessage: null,
-    isLoading: false,
-  },
-  reducers: {
-    // Reducer pour la connexion
-    login: (state, action) => {
-      state.token = action.payload.token;
-    },
-    // Reducer pour la déconnexion
-    logout: (state) => {
-      state.token = null;
-    },
-  },
+  name: "auth",
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      // Gestion de l'état pendant la requête de connexion
+      // ============================================
+      // LOGIN
+      // ============================================
       .addCase(loginAction.pending, (state) => {
         state.isLoading = true;
         state.errorMessage = null;
       })
-      // Gestion de l'état lorsque la connexion est réussie
       .addCase(loginAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.token = action.payload;
-        localStorage.setItem("token", action.payload);
       })
-      // Gestion de l'état lorsque la connexion échoue
       .addCase(loginAction.rejected, (state, action) => {
         state.isLoading = false;
-        state.errorMessage =
-          action.payload || "Incorrect username or password.";
+        state.errorMessage = action.payload;
+      })
+
+      // ============================================
+      // GET PROFILE
+      // ============================================
+      .addCase(getUserProfileAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserProfileAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(getUserProfileAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorMessage = action.payload;
+      })
+
+      // ============================================
+      // LOGOUT
+      // ============================================
+      .addCase(logoutAction, (state) => {
+        state.token = null;
+        state.user = null;
+        state.errorMessage = null;
+        localStorage.removeItem("token");
       });
   },
 });
 
-export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;

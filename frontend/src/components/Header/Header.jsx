@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutAction } from '../../redux/authAction';
+import { logoutAction } from '../../Redux/authAction';  
 import './Header.css';
 
 function Header() {
