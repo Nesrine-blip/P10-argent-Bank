@@ -1,0 +1,203 @@
+/* USER PAGE */
+.user-page {
+  background-color: #12002b;
+  min-height: 80vh;
+  padding: 2rem;
+  color: white;
+}
+
+/* USER HEADER */
+.user-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.user-header h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.user-name {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+/* EDIT BUTTON */
+.edit-button {
+  background-color: #00bc77;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.edit-button:hover {
+  background-color: #00a868;
+}
+
+/* EDIT FORM */
+.edit-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  color: #222;
+  border-radius: 8px;
+}
+
+.edit-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+.disabled-input {
+  background-color: #f0f0f0;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.save-button,
+.cancel-button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-button {
+  background-color: #00bc77;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #00a868;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* ACCOUNTS SECTION */
+.accounts {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ACCOUNT CARD */
+.account {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: #222;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.account-content {
+  flex: 1;
+}
+
+.account-title {
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+}
+
+.account-amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.account-amount-description {
+  margin: 0;
+  color: #666;
+}
+
+.account-actions {
+  margin-left: 2rem;
+}
+
+.transaction-button {
+  background-color: #00bc77;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.transaction-button:hover {
+  background-color: #00a868;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .account {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .account-actions {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .transaction-button {
+    width: 100%;
+  }
+}

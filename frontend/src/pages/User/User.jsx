@@ -1,71 +1,166 @@
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { getUserProfileAction } from '../../Redux/authAction';
+import { editUser } from '../../Redux/userAction';
+import './User.css';
 
 function User() {
-  const { user, token } = useSelector((state) => state.auth);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newUserName, setNewUserName] = useState('');
+  
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const { user, token } = useSelector((state) => state.auth);
+  const firstName = user?.firstName || '';
+  const lastName = user?.lastName || '';
+  const userName = user?.userName || '';
 
-  // Redirection si pas de token
+  // Redirection si pas connecté
   useEffect(() => {
     if (!token) {
       navigate('/sign-in');
+    } else if (token && !user) {
+      // Charger le profil si on a un token mais pas de user
+      dispatch(getUserProfileAction(token));
     }
-  }, [token, navigate]);
+  }, [token, user, navigate, dispatch]);
+
+  // Initialiser le nouveau userName avec la valeur actuelle
+  useEffect(() => {
+    if (userName) {
+      setNewUserName(userName);
+    }
+  }, [userName]);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setNewUserName(userName); // Réinitialiser avec la valeur d'origine
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    
+    if (newUserName.trim() && newUserName !== userName) {
+      try {
+        await dispatch(editUser({ token, userName: newUserName }));
+        setIsEditing(false);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour:', error);
+      }
+    }
+  };
 
   // Affichage pendant le chargement
   if (!user) {
     return (
-      <main style={{ 
-        padding: '2rem', 
-        textAlign: 'center',
-        minHeight: '80vh',
-        backgroundColor: '#12002b',
-        color: 'white'
-      }}>
-        <h1>Loading user information...</h1>
+      <main className="user-page">
+        <h1>Loading...</h1>
       </main>
     );
   }
 
-  // ✅ Affichage avec toutes les infos utilisateur
   return (
-    <main style={{ 
-      padding: '2rem', 
-      textAlign: 'center',
-      minHeight: '80vh',
-      backgroundColor: '#12002b',
-      color: 'white'
-    }}>
-      <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>
-        Welcome back
-      </h1>
-      
-      <div style={{
-        background: 'white',
-        color: '#222',
-        padding: '2rem',
-        maxWidth: '600px',
-        margin: '0 auto',
-        borderRadius: '8px'
-      }}>
-        <h2 style={{ marginBottom: '1.5rem' }}>User Profile</h2>
+    <main className="user-page">
+      <div className="user-header">
+        <h1>Welcome back</h1>
         
-        <div style={{ textAlign: 'left', fontSize: '1.1rem' }}>
-          <p><strong>First Name:</strong> {user.firstName}</p>
-          <p><strong>Last Name:</strong> {user.lastName}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          
-          {/* Affiche aussi userName si disponible */}
-          {user.userName && (
-            <p><strong>Username:</strong> {user.userName}</p>
-          )}
-        </div>
-        
-        <p style={{ marginTop: '2rem', color: '#00bc77', fontWeight: 'bold' }}>
-          ✅ Successfully logged in!
-        </p>
+        {!isEditing ? (
+          <>
+            <h2 className="user-name">
+              {firstName} {lastName}!
+            </h2>
+            <button className="edit-button" onClick={handleEditClick}>
+              Edit Name
+            </button>
+          </>
+        ) : (
+          <form className="edit-form" onSubmit={handleSave}>
+            <h2>Edit user info</h2>
+            <div className="form-group">
+              <label htmlFor="userName">User name:</label>
+              <input
+                type="text"
+                id="userName"
+                value={newUserName}
+                onChange={(e) => setNewUserName(e.target.value)}
+                placeholder="Enter username"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="firstName">First name:</label>
+              <input
+                type="text"
+                id="firstName"
+                value={firstName}
+                disabled
+                className="disabled-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last name:</label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                disabled
+                className="disabled-input"
+              />
+            </div>
+            <div className="form-buttons">
+              <button type="submit" className="save-button">
+                Save
+              </button>
+              <button type="button" className="cancel-button" onClick={handleCancelEdit}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
       </div>
+
+      <section className="accounts">
+        <h2 className="sr-only">Accounts</h2>
+        
+        <div className="account">
+          <div className="account-content">
+            <h3 className="account-title">Argent Bank Checking (x8349)</h3>
+            <p className="account-amount">$2,082.79</p>
+            <p className="account-amount-description">Available Balance</p>
+          </div>
+          <div className="account-actions">
+            <button className="transaction-button">View transactions</button>
+          </div>
+        </div>
+
+        <div className="account">
+          <div className="account-content">
+            <h3 className="account-title">Argent Bank Savings (x6712)</h3>
+            <p className="account-amount">$10,928.42</p>
+            <p className="account-amount-description">Available Balance</p>
+          </div>
+          <div className="account-actions">
+            <button className="transaction-button">View transactions</button>
+          </div>
+        </div>
+
+        <div className="account">
+          <div className="account-content">
+            <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
+            <p className="account-amount">$184.30</p>
+            <p className="account-amount-description">Current Balance</p>
+          </div>
+          <div className="account-actions">
+            <button className="transaction-button">View transactions</button>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
