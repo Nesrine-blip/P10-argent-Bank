@@ -9,7 +9,7 @@ export const getUser = createAsyncThunk(
 
     try {
       const res = await fetch("http://localhost:3001/api/v1/user/profile", {
-        method: "GET",
+        method: "POST", // ✅ POST (pas GET !)
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

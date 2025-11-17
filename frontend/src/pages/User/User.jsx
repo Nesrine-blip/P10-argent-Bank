@@ -6,41 +6,66 @@ function User() {
   const { user, token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  // Si pas de token, rediriger vers sign-in
+  // Redirection si pas de token
   useEffect(() => {
     if (!token) {
       navigate('/sign-in');
     }
   }, [token, navigate]);
 
-  // Afficher "Loading..." si pas encore d'infos utilisateur
+  // Affichage pendant le chargement
   if (!user) {
     return (
       <main style={{ 
         padding: '2rem', 
         textAlign: 'center',
         minHeight: '80vh',
-        backgroundColor: 'white'
+        backgroundColor: '#12002b',
+        color: 'white'
       }}>
         <h1>Loading user information...</h1>
       </main>
     );
   }
 
+  // ✅ Affichage avec toutes les infos utilisateur
   return (
     <main style={{ 
       padding: '2rem', 
       textAlign: 'center',
       minHeight: '80vh',
-      backgroundColor: 'white'
+      backgroundColor: '#12002b',
+      color: 'white'
     }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-        Welcome {user.firstName} {user.lastName}!
+      <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>
+        Welcome back
       </h1>
-      <p style={{ fontSize: '1.2rem' }}>Email: {user.email}</p>
-      <p style={{ marginTop: '2rem', color: '#666' }}>
-        🎉 Connexion réussie ! Redux fonctionne !
-      </p>
+      
+      <div style={{
+        background: 'white',
+        color: '#222',
+        padding: '2rem',
+        maxWidth: '600px',
+        margin: '0 auto',
+        borderRadius: '8px'
+      }}>
+        <h2 style={{ marginBottom: '1.5rem' }}>User Profile</h2>
+        
+        <div style={{ textAlign: 'left', fontSize: '1.1rem' }}>
+          <p><strong>First Name:</strong> {user.firstName}</p>
+          <p><strong>Last Name:</strong> {user.lastName}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          
+          {/* Affiche aussi userName si disponible */}
+          {user.userName && (
+            <p><strong>Username:</strong> {user.userName}</p>
+          )}
+        </div>
+        
+        <p style={{ marginTop: '2rem', color: '#00bc77', fontWeight: 'bold' }}>
+          ✅ Successfully logged in!
+        </p>
+      </div>
     </main>
   );
 }
