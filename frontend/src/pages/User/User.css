@@ -32,55 +32,66 @@
   font-weight: bold;
   cursor: pointer;
   font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .edit-button:hover {
   background-color: #00a868;
 }
 
-/* EDIT FORM */
-.edit-form {
-  max-width: 400px;
+/* EDIT NAME FORM - NOUVEAU STYLE SIMPLIFIÉ */
+.edit-name-form {
+  max-width: 500px;
   margin: 0 auto;
   padding: 2rem;
   background: white;
   color: #222;
   border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.edit-form h2 {
+.edit-name-form h2 {
   margin-bottom: 1.5rem;
   text-align: center;
+  color: #222;
 }
 
-.form-group {
-  margin-bottom: 1rem;
+.input-group {
+  margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.input-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
+  color: #222;
 }
 
-.form-group input {
+.input-group input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 5px;
   font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
-.disabled-input {
-  background-color: #f0f0f0;
-  color: #666;
-  cursor: not-allowed;
+.input-group input:focus {
+  outline: none;
+  border-color: #00bc77;
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  margin: 1rem 0;
+  font-weight: 500;
 }
 
 .form-buttons {
   display: flex;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .save-button,
@@ -92,6 +103,7 @@
   font-weight: bold;
   cursor: pointer;
   font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .save-button {
@@ -99,17 +111,39 @@
   color: white;
 }
 
-.save-button:hover {
+.save-button:hover:not(:disabled) {
   background-color: #00a868;
 }
 
 .cancel-button {
-  background-color: #dc3545;
+  background-color: #6c757d;
   color: white;
 }
 
-.cancel-button:hover {
-  background-color: #c82333;
+.cancel-button:hover:not(:disabled) {
+  background-color: #5a6268;
+}
+
+.save-button:disabled,
+.cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* USER INFO DISPLAY */
+.user-info-display {
+  padding-top: 1.5rem;
+  border-top: 2px solid #e9ecef;
+  text-align: left;
+}
+
+.user-info-display p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.user-info-display strong {
+  color: #222;
 }
 
 /* ACCOUNTS SECTION */
@@ -178,6 +212,7 @@
   cursor: pointer;
   font-size: 1rem;
   white-space: nowrap;
+  transition: background-color 0.3s ease;
 }
 
 .transaction-button:hover {
@@ -199,5 +234,13 @@
 
   .transaction-button {
     width: 100%;
+  }
+
+  .edit-name-form {
+    padding: 1.5rem;
+  }
+
+  .form-buttons {
+    flex-direction: column;
   }
 }

@@ -126,13 +126,18 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Update Username
+      // Update Username - CORRECTION ICI
       .addCase(updateUsername.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(updateUsername.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.error = null;
+        // ✅ Mise à jour correcte du userName dans le state
+        if (state.user) {
+          state.user.userName = action.payload.userName;
+        }
       })
       .addCase(updateUsername.rejected, (state, action) => {
         state.isLoading = false;

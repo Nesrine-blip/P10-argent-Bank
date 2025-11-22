@@ -11,7 +11,7 @@ function User() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { user, token } = useSelector((state) => state.auth);
+  const { user, token, isLoading, error } = useSelector((state) => state.auth);
   const firstName = user?.firstName || '';
   const lastName = user?.lastName || '';
   const userName = user?.userName || '';
@@ -32,6 +32,7 @@ function User() {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setNewUserName(userName);
   };
 
   const handleCancelEdit = () => {
@@ -43,7 +44,13 @@ function User() {
     e.preventDefault();
     
     if (newUserName.trim() && newUserName !== userName) {
-      await dispatch(updateUsername({ token, userName: newUserName }));
+      const result = await dispatch(updateUsername({ token, userName: newUserName }));
+      
+      // ✅ Fermer le formulaire uniquement si la mise à jour a réussi
+      if (updateUsername.fulfilled.match(result)) {
+        setIsEditing(false);
+      }
+    } else {
       setIsEditing(false);
     }
   };
@@ -71,47 +78,51 @@ function User() {
             </button>
           </>
         ) : (
-          <form className="edit-form" onSubmit={handleSave}>
-            <h2>Edit user info</h2>
-            <div className="form-group">
-              <label htmlFor="userName">User name:</label>
-              <input
-                type="text"
-                id="userName"
-                value={newUserName}
-                onChange={(e) => setNewUserName(e.target.value)}
-                required
-              />
+          <div className="edit-name-form">
+            <h2>Edit user name</h2>
+            
+            <form onSubmit={handleSave}>
+              <div className="input-group">
+                <label htmlFor="userName">User name:</label>
+                <input
+                  type="text"
+                  id="userName"
+                  value={newUserName}
+                  onChange={(e) => setNewUserName(e.target.value)}
+                  placeholder="Enter new username"
+                  required
+                  autoFocus
+                />
+              </div>
+
+              {error && (
+                <p className="error-message">{error}</p>
+              )}
+
+              <div className="form-buttons">
+                <button 
+                  type="submit" 
+                  className="save-button"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Saving...' : 'Save'}
+                </button>
+                <button 
+                  type="button" 
+                  className="cancel-button" 
+                  onClick={handleCancelEdit}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+
+            <div className="user-info-display">
+              <p><strong>First name:</strong> {firstName}</p>
+              <p><strong>Last name:</strong> {lastName}</p>
             </div>
-            <div className="form-group">
-              <label htmlFor="firstName">First name:</label>
-              <input
-                type="text"
-                id="firstName"
-                value={firstName}
-                disabled
-                className="disabled-input"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="lastName">Last name:</label>
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                disabled
-                className="disabled-input"
-              />
-            </div>
-            <div className="form-buttons">
-              <button type="submit" className="save-button">
-                Save
-              </button>
-              <button type="button" className="cancel-button" onClick={handleCancelEdit}>
-                Cancel
-              </button>
-            </div>
-          </form>
+          </div>
         )}
       </div>
 
