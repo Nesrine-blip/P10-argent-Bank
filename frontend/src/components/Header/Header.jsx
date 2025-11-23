@@ -24,7 +24,7 @@ function Header() {
           <>
             <Link className="signin" to="/user">
               <i className="fa fa-user-circle"></i>
-              {user.firstName}
+              {user.userName}
             </Link>
             <Link className="signin" to="/" onClick={handleLogout}>
               <i className="fa fa-sign-out"></i>

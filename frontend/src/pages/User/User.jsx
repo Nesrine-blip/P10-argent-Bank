@@ -11,7 +11,7 @@ function User() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { user, token, isLoading, error } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const firstName = user?.firstName || '';
   const lastName = user?.lastName || '';
   const userName = user?.userName || '';
@@ -32,7 +32,6 @@ function User() {
 
   const handleEditClick = () => {
     setIsEditing(true);
-    setNewUserName(userName);
   };
 
   const handleCancelEdit = () => {
@@ -44,13 +43,7 @@ function User() {
     e.preventDefault();
     
     if (newUserName.trim() && newUserName !== userName) {
-      const result = await dispatch(updateUsername({ token, userName: newUserName }));
-      
-      // ✅ Fermer le formulaire uniquement si la mise à jour a réussi
-      if (updateUsername.fulfilled.match(result)) {
-        setIsEditing(false);
-      }
-    } else {
+      await dispatch(updateUsername({ token, userName: newUserName }));
       setIsEditing(false);
     }
   };
@@ -71,57 +64,34 @@ function User() {
         {!isEditing ? (
           <>
             <h2 className="user-name">
-              {firstName} {lastName}!
+              {userName}!
             </h2>
             <button className="edit-button" onClick={handleEditClick}>
               Edit Name
             </button>
           </>
         ) : (
-          <div className="edit-name-form">
+          <div className="edit-name-section">
             <h2>Edit user name</h2>
-            
-            <form onSubmit={handleSave}>
-              <div className="input-group">
-                <label htmlFor="userName">User name:</label>
+            <form className="edit-name-form" onSubmit={handleSave}>
+              <div className="form-inline">
                 <input
                   type="text"
                   id="userName"
                   value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
-                  placeholder="Enter new username"
+                  placeholder="User Name"
                   required
-                  autoFocus
+                  className="input-username"
                 />
-              </div>
-
-              {error && (
-                <p className="error-message">{error}</p>
-              )}
-
-              <div className="form-buttons">
-                <button 
-                  type="submit" 
-                  className="save-button"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Saving...' : 'Save'}
+                <button type="submit" className="save-button">
+                  Save
                 </button>
-                <button 
-                  type="button" 
-                  className="cancel-button" 
-                  onClick={handleCancelEdit}
-                  disabled={isLoading}
-                >
+                <button type="button" className="cancel-button" onClick={handleCancelEdit}>
                   Cancel
                 </button>
               </div>
             </form>
-
-            <div className="user-info-display">
-              <p><strong>First name:</strong> {firstName}</p>
-              <p><strong>Last name:</strong> {lastName}</p>
-            </div>
           </div>
         )}
       </div>
