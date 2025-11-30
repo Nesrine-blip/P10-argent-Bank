@@ -72,18 +72,40 @@ function User() {
           </>
         ) : (
           <div className="edit-name-section">
-            <h2>Edit user name</h2>
+            <h2>Edit user info</h2>
             <form className="edit-name-form" onSubmit={handleSave}>
-              <div className="form-inline">
+              <div className="form-group">
+                <label htmlFor="userName">User name:</label>
                 <input
                   type="text"
                   id="userName"
                   value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
-                  placeholder="User Name"
                   required
-                  className="input-username"
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="firstName">First name:</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  value={firstName}
+                  disabled
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="lastName">Last name:</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  disabled
+                />
+              </div>
+
+              <div className="form-buttons">
                 <button type="submit" className="save-button">
                   Save
                 </button>
