@@ -72,3 +72,63 @@ For some of the dynamic features, like toggling user editing, there is a mock-up
 And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
 # P10-argent-Bank
 
+
+
+---
+
+## Additional Setup Instructions (Added by Student)
+
+### Prerequisites
+
+Before running the application, ensure MongoDB is installed on your system.
+
+**Check if MongoDB is already installed:**
+```bash
+mongod --version
+```
+
+**If not installed, install MongoDB:**
+
+**macOS (via Homebrew):**
+```bash
+brew tap mongodb/brew
+brew install mongodb-community
+```
+
+**macOS (manual installation):**
+```bash
+curl -O https://fastdl.mongodb.org/osx/mongodb-macos-x86_64-6.0.18.tgz
+tar -zxvf mongodb-macos-x86_64-6.0.18.tgz
+sudo mv mongodb-macos-x86_64-6.0.18 /usr/local/mongodb
+mkdir -p ~/data/db
+```
+
+### Running the Application
+
+You need **3 separate terminals**:
+
+**Terminal 1 - Start MongoDB:**
+```bash
+# If installed via Homebrew:
+brew services start mongodb-community
+
+# If installed manually:
+/usr/local/mongodb/bin/mongod --dbpath ~/data/db
+```
+
+**Terminal 2 - Start Backend:**
+```bash
+npm run dev:server
+```
+
+Wait for: `Database successfully connected`
+
+**Terminal 3 - Start Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+
+Your application should now be running at http://localhost:5173
+
+**Note:** Always start MongoDB (Terminal 1) before the backend (Terminal 2).
