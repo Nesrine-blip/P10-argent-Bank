@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUserProfile, updateUsername } from '../../Redux/authSlice';
+import Account from '../../components/Account/Account';
 import './User.css';
 
 function User() {
@@ -11,11 +12,13 @@ function User() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
+  // Get user data from Redux store
   const { user, token } = useSelector((state) => state.auth);
   const firstName = user?.firstName || '';
   const lastName = user?.lastName || '';
   const userName = user?.userName || '';
 
+  // Redirect to sign-in if not authenticated
   useEffect(() => {
     if (!token) {
       navigate('/sign-in');
@@ -24,6 +27,7 @@ function User() {
     }
   }, [token, user, navigate, dispatch]);
 
+  // Update local userName when user data changes
   useEffect(() => {
     if (userName) {
       setNewUserName(userName);
@@ -39,6 +43,7 @@ function User() {
     setNewUserName(userName);
   };
 
+  // Save updated username
   const handleSave = async (e) => {
     e.preventDefault();
     
@@ -55,6 +60,28 @@ function User() {
       </main>
     );
   }
+
+  // Bank accounts data
+  const accounts = [
+    {
+      id: 1,
+      title: 'Argent Bank Checking (x8349)',
+      amount: '$2,082.79',
+      description: 'Available Balance'
+    },
+    {
+      id: 2,
+      title: 'Argent Bank Savings (x6712)',
+      amount: '$10,928.42',
+      description: 'Available Balance'
+    },
+    {
+      id: 3,
+      title: 'Argent Bank Credit Card (x8349)',
+      amount: '$184.30',
+      description: 'Current Balance'
+    }
+  ];
 
   return (
     <main className="user-page">
@@ -121,38 +148,15 @@ function User() {
       <section className="accounts">
         <h2 className="sr-only">Accounts</h2>
         
-        <div className="account">
-          <div className="account-content">
-            <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-            <p className="account-amount">$2,082.79</p>
-            <p className="account-amount-description">Available Balance</p>
-          </div>
-          <div className="account-actions">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </div>
-
-        <div className="account">
-          <div className="account-content">
-            <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-            <p className="account-amount">$10,928.42</p>
-            <p className="account-amount-description">Available Balance</p>
-          </div>
-          <div className="account-actions">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </div>
-
-        <div className="account">
-          <div className="account-content">
-            <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-            <p className="account-amount">$184.30</p>
-            <p className="account-amount-description">Current Balance</p>
-          </div>
-          <div className="account-actions">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </div>
+        {/* Render account components dynamically */}
+        {accounts.map((account) => (
+          <Account
+            key={account.id}
+            title={account.title}
+            amount={account.amount}
+            description={account.description}
+          />
+        ))}
       </section>
     </main>
   );

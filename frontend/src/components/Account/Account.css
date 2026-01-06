@@ -1,0 +1,71 @@
+/* ACCOUNT CARD */
+.account {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: #222;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.account-content {
+  flex: 1;
+}
+
+.account-title {
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+}
+
+.account-amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.account-amount-description {
+  margin: 0;
+  color: #666;
+}
+
+.account-actions {
+  margin-left: 2rem;
+}
+
+.transaction-button {
+  background-color: #00bc77;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.transaction-button:hover {
+  background-color: #00a868;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .account {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .account-actions {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .transaction-button {
+    width: 100%;
+  }
+}

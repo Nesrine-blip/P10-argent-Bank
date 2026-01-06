@@ -16,19 +16,15 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    try {
-      const loginResult = await dispatch(login({ email, password }));
+    const loginResult = await dispatch(login({ email, password }));
+    
+    if (login.fulfilled.match(loginResult)) {
+      const token = loginResult.payload;
+      const profileResult = await dispatch(getUserProfile(token));
       
-      if (login.fulfilled.match(loginResult)) {
-        const token = loginResult.payload;
-        const profileResult = await dispatch(getUserProfile(token));
-        
-        if (getUserProfile.fulfilled.match(profileResult)) {
-          navigate('/user');
-        }
+      if (getUserProfile.fulfilled.match(profileResult)) {
+        navigate('/user');
       }
-    } catch (error) {
-      // Error handled by Redux
     }
   };
 

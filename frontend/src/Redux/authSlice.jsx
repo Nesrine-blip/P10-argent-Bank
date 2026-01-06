@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const API_URL = "http://localhost:3001/api/v1/user";
 
-// Login action
+// LOGIN - Authenticate user with email and password
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
@@ -21,14 +21,15 @@ export const login = createAsyncThunk(
 
       const token = data.body.token;
       localStorage.setItem("token", token);
+      
       return token;
-    } catch (error) {
+    } catch {
       return rejectWithValue("Network error");
     }
   }
 );
 
-// Get user profile
+// GET USER PROFILE - Fetch user data with token
 export const getUserProfile = createAsyncThunk(
   "auth/getUserProfile",
   async (token, { rejectWithValue }) => {
@@ -48,13 +49,13 @@ export const getUserProfile = createAsyncThunk(
       }
 
       return data.body;
-    } catch (error) {
+    } catch {
       return rejectWithValue("Network error");
     }
   }
 );
 
-// Update username
+// UPDATE USERNAME - Modify user's display name
 export const updateUsername = createAsyncThunk(
   "auth/updateUsername",
   async ({ token, userName }, { rejectWithValue }) => {
@@ -75,12 +76,13 @@ export const updateUsername = createAsyncThunk(
       }
 
       return data.body;
-    } catch (error) {
+    } catch {
       return rejectWithValue("Network error");
     }
   }
 );
 
+// Initial state - Restore token from localStorage if exists
 const initialState = {
   token: localStorage.getItem("token") || null,
   user: null,
@@ -88,10 +90,13 @@ const initialState = {
   error: null,
 };
 
+// Auth slice - Manages authentication state
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  
   reducers: {
+    // Logout - Clear user data and token
     logout: (state) => {
       state.token = null;
       state.user = null;
@@ -99,9 +104,11 @@ const authSlice = createSlice({
       localStorage.removeItem("token");
     },
   },
+  
+  // Handle async actions (pending, fulfilled, rejected)
   extraReducers: (builder) => {
     builder
-      // Login
+      // Login cases
       .addCase(login.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -114,7 +121,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Get Profile
+      
+      // Get profile cases
       .addCase(getUserProfile.pending, (state) => {
         state.isLoading = true;
       })
@@ -126,7 +134,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Update Username - CORRECTION ICI
+      
+      // Update username cases
       .addCase(updateUsername.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -134,7 +143,7 @@ const authSlice = createSlice({
       .addCase(updateUsername.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        // ✅ Mise à jour correcte du userName dans le state
+        // Update userName in store
         if (state.user) {
           state.user.userName = action.payload.userName;
         }
